@@ -5,12 +5,11 @@ import java.io.IOException;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class main {
@@ -19,7 +18,7 @@ public class main {
             IOException {
 
         String inpFn = "C:\\Users\\shaco\\Downloads\\GeozoneReport_13_05_2022.xls";
-        String outFn = "C:\\Users\\shaco\\Downloads\\GeozoneReport_13_05_2022-final.xlsx";
+        String outFn = "C:\\Users\\shaco\\Downloads\\GeozoneReport_13_05_2022-style.xlsx";
 
         FileInputStream in = new FileInputStream(inpFn);
         try {
@@ -69,11 +68,24 @@ public class main {
                                 break;
                         }
 
-                        {
-                            CellStyle styleIn = cellIn.getCellStyle();
-                            CellStyle styleOut = cellOut.getCellStyle();
-                            styleOut.setDataFormat(styleIn.getDataFormat());
-                        }
+                        CellStyle styleIn = cellIn.getCellStyle();
+                        CellStyle styleOut = cellOut.getCellStyle();
+                        styleOut.setDataFormat(styleIn.getDataFormat());
+
+                        styleIn.setBorderTop((short) 1);
+                        styleIn.setBorderRight((short) 1);
+                        styleIn.setBorderLeft((short) 1);
+                        styleIn.setBorderBottom((short) 1);
+                        styleIn.setFillForegroundColor(HSSFColor.LIGHT_TURQUOISE.index);
+                        styleIn.setFillPattern(XSSFCellStyle.SOLID_FOREGROUND);
+                        styleIn.setVerticalAlignment(XSSFCellStyle.VERTICAL_CENTER);
+                        styleIn.setAlignment(XSSFCellStyle.ALIGN_CENTER);
+                        styleIn.setWrapText(true);
+                        Font f = wbOut.createFont();
+                        f.setFontHeightInPoints((short) 10);
+                        f.setBoldweight((short) f.BOLDWEIGHT_BOLD);
+//                            styleIn.setFont(f);
+                        cellOut.setCellStyle(styleOut);
                         cellOut.setCellComment(cellIn.getCellComment());
                     }
                 }
